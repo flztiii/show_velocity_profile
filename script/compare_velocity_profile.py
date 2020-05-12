@@ -6,6 +6,7 @@ import message_filters
 from nav_msgs.msg import Odometry
 from diff_msgs.msg import WheelSpeedStatus
 import matplotlib.pyplot as plt
+import csv
 
 # 全局变量
 store_path = '/home/flztiii/Documents/turtlebot_test/compare/'
@@ -34,7 +35,11 @@ def callback(odom_msg, diff_msg):
         fig = plt.figure(figsize=(14, 14))
         plt.plot(distances, velocitys)
         plt.savefig(store_path + 'vd.png')
-        
+        # 保存原本数据为csv
+        with open(store_path + 'vd.csv', 'w') as f:
+            writer = csv.writer(f)
+            for i,_ in enumerate(distances):
+                writer.writerow([distances[i], velocitys[i]])
 
 # 主函数
 def main():
